@@ -8,17 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var progress = 0.0
     
     var body: some View {
-        ZStack {
+        ZStack  {
             Rectangle()
+                .cornerRadius(19)
+                .frame( width: 290, height: 60)
                 .foregroundColor(.purple)
-                .cornerRadius(10)
-                .frame(width: 290, height: 60)
-            
-            Text("100%")
+                .scaleEffect(x: progress, y: 1, anchor: .leading)
+                .animation(.spring(response: 0.5, dampingFraction: 2.7))
+                .onAppear {
+                                    progress = 1.0
+                                }
+
+
+               
+             
+            Text("\(Int(progress * 100))%")
                 .font(.largeTitle)
                 .bold()
+            
+            
+
             
             
             

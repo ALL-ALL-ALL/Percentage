@@ -6,53 +6,55 @@
 //
 
 import SwiftUI
-import Vortex
+
+import SwiftUI
 
 struct ContentView: View {
     @State private var progress = 0.0
+    @State private var count = 0
     
     var body: some View {
-        
-        
-        ZStack  {
-            VortexView(.rain) {
-                Circle()
-                    .fill(.blue)
-                    .frame(width: 32)
-                    .tag("circle")
-            }
+        ZStack {
             Rectangle()
                 .cornerRadius(19)
-                .frame( width: 290, height: 60)
+                .frame(width: 290, height: 40)
                 .foregroundColor(.purple)
                 .scaleEffect(x: progress, y: 1, anchor: .leading)
                 .animation(.spring(response: 0.5, dampingFraction: 2.7))
+                .padding(.bottom, 40)
             
-                .onAppear {
-                                    progress = 1.0
-                    
-                                } // on appear 
-
-
-               
-             
-            Text("\(Int(progress * 100))%")
-                .font(.largeTitle)
-                .bold()
-            
-            
-
-            
-            
-            
-        } // FIN ZSTACK
-        
-        
+            VStack {
+                ForEach(0..<count, id: \.self) { index in
+                    Text("\(Int(progress * 100))%") // Utilisation d'un seul Text
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.white)
+                        .transition(.opacity)
+                }
+            }
+        }
         .padding()
         
-    } // FIN BODY
-} // FIN STRUCT
-
-#Preview {
-    ContentView()
+        .onAppear {
+            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+                if progress < 1 {
+                    progress += 0.01
+                    count = Int(progress * 200)
+                } else {
+                    //???
+                }
+            }
+        }
+    }
 }
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+
+
+
+
+

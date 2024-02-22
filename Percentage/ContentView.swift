@@ -6,53 +6,64 @@
 //
 
 import SwiftUI
+import UIKit
 
-import SwiftUI
 
 struct ContentView: View {
     @State private var progress = 0.0
-    @State private var count = 0
     
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .cornerRadius(19)
-                .frame(width: 290, height: 40)
-                .foregroundColor(.purple)
-                .scaleEffect(x: progress, y: 1, anchor: .leading)
-                .animation(.spring(response: 0.5, dampingFraction: 2.7))
-                .padding(.bottom, 40)
-            
-            VStack {
-                ForEach(0..<count, id: \.self) { index in
-                    Text("\(Int(progress * 100))%") // Utilisation d'un seul Text
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.white)
-                        .transition(.opacity)
-                }
-            }
-        }
-        .padding()
+
+    
+var body: some View {
+    
+    
+    ZStack{
         
-        .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-                if progress < 1 {
-                    progress += 0.01
-                    count = Int(progress * 200)
-                } else {
-                    //???
+        Rectangle()
+            .frame(width: 250, height: 50, alignment: .center)
+            .foregroundColor(.purple)
+            .cornerRadius(15)
+            .scaleEffect(x: progress, y: 1, anchor: .leading)
+            .animation(.spring(response: 0.5, dampingFraction: 2.7))
+
+
+        
+        Text("\(Int(progress * 100))%") // Modifie le texte en fonction de la progression
+            .font(.title)
+            .bold()
+        
+        
+        
+       
+        
+        
+        
+    } // FIN ZSTACK
+    .onAppear {
+                Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+                    if progress < 1.0 {
+                        progress += 0.01
+                    } else {
+                        timer.invalidate()
+                    }
                 }
             }
-        }
-    }
+    
+    
+        
+        
+        
+        
+        
+        } // fin body
+    
+ }// fin struct
+
+
+#Preview {
+    ContentView()
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
 
 
 
